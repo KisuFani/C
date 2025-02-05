@@ -1,0 +1,42 @@
+
+// tee luokka ajanvaraus
+
+// luokan toiminnat
+//  - tekemään varaus
+//  - katsoa varaukset
+//  - perua varaus
+//  - luetaan json tiedosto
+
+// varaukset tallennetaan json tiedosto
+
+#include "ajanvaraus"
+#include "varaukset.json"
+json Ajanvaraus::lataaVaraukset(){
+    std::ifstream tiedosto("varaukset.json");
+    json data;
+    if (tiedosto.is_open()){
+        tiedosto >>data;
+    }
+    return data;
+
+}
+void ajanvaraus::tallennaVaraus(const json& uusiVaraus)
+ {
+     json data = lataaVaraukset();
+     data.push_back(uusiVaraus);
+
+     std::ofstream tiedosto("varaukset.json");
+     tiedosto << data.dump(4);
+ }
+
+ void ajanvaraus::teeVaraus(const std::string& nimi, const std::string& aika){
+    json uusiVaraus = {
+    {"nimi", nimi},
+    {"aika", aika}
+
+
+
+    };
+    tallennaVaraus(uusiVaraus);
+ }
+ void ajanvaraus
